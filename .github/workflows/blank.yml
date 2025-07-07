@@ -1,0 +1,21 @@
+name: Close Stale Issues
+
+# 觸發條件：每天晚上 8:00 (台灣時間) 運行
+on:
+  schedule:
+    - cron: '0 12 * * *' # UTC 12:00 = 台灣時間 20:00
+
+# 工作內容
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/stale@v9.1.0
+        with:
+          stale-issue-message: '這個 Issue 過期了，將在 7 天後關閉！'
+          days-before-stale: 30 # 30 天無更新標記為過期
+          days-before-close: 7  # 標記後 7 天關閉
+          stale-label: 'stale'  # 標記過期的標籤
+          exempt-labels: 'pinned,security' # 豁免的標籤
+          delete-branch: true   # 關閉後刪除分支（可選）
